@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todos</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/todos.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Todos</h1>
+    <input type="text" id="newTodo" placeholder="New todo">
+    <button id="addTodo">Add</button>
+    <ul id="todosList"></ul>
+  </div>
+
+  <script type="module">
+    import { databases } from "./js/appwrite.js";
+
+    const DATABASE_ID = "[YOUR_DATABASE_ID]";
+    const COLLECTION_ID = "[YOUR_COLLECTION_ID]";
+
+    const todosList = document.getElementById("todosList");
+    const newTodo = document.getElementById("newTodo");
+
+    const fetchTodos = async () => {
+      todosList.innerHTML = "";
+      try {
+        const res = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
+        res.documents.forEach(todo => {
+          const li = document.createElement("li");
+          li.textContent = todo.title;
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.addEventListener("click", async () => {
+            await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, todo.$id);
+            fetchTodos();
+          });
+          li.appendChild(delBtn);
+          todosList.appendChild(li);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    document.getElementById("addTodo").addEventListener("click", async () => {
+      if (!newTodo.value) return;
+      try {
+        await databases.createDocument(DATABASE_ID, COLLECTION_ID, "unique()", { title: newTodo.value });
+        newTodo.value = "";
+        fetchTodos();
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    fetchTodos();
+  </script>
+</body>
+</html>
