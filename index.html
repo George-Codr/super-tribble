@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appwrite Auth</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Appwrite Auth</h1>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <div>
+      <button id="signup">Sign Up</button>
+      <button id="login">Login</button>
+    </div>
+    <p id="message"></p>
+  </div>
+
+  <script type="module">
+    import { account } from "./js/appwrite.js";
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const message = document.getElementById("message");
+
+    document.getElementById("signup").addEventListener("click", async () => {
+      try {
+        await account.create("unique()", email.value, password.value);
+        message.textContent = "Sign up successful! You can now log in.";
+      } catch (err) {
+        message.textContent = err.message;
+      }
+    });
+
+    document.getElementById("login").addEventListener("click", async () => {
+      try {
+        await account.createEmailSession(email.value, password.value);
+        message.textContent = "Login successful!";
+        window.location.href = "todos.html"; // Redirect to Todos page
+      } catch (err) {
+        message.textContent = err.message;
+      }
+    });
+  </script>
+</body>
+</html
