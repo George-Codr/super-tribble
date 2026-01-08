@@ -1,0 +1,17 @@
+{
+  "name": "appwrite-website",
+  "version": "1.0.0",
+  "description": "Vanilla HTML + JS + SCSS website using Appwrite API",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000",
+    "build-css": "sass scss/main.scss css/main.css",
+    "watch-css": "sass --watch scss/main.scss:css/main.css"
+  },
+  "author": "William George",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "sass": "^1.72.0"
+  }
+}
