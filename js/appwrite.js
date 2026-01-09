@@ -1,9 +1,15 @@
-import { Client, Account, Databases, Storage } from "https://cdn.jsdelivr.net/npm/appwrite@8.6.2/dist/appwrite.min.js";
+import {
+  Client,
+  Account,
+  Databases,
+  Storage
+} from "https://cdn.jsdelivr.net/npm/appwrite@13.0.1/dist/esm/sdk.js";
 
 const client = new Client();
+
 client
-  .setEndpoint("https://[YOUR_APPWRITE_ENDPOINT]/v1") // Replace with your Appwrite endpoint
-  .setProject("[YOUR_PROJECT_ID]"); // Replace with your Appwrite Project ID
+  .setEndpoint("https://cloud.appwrite.io/v1") // or self-hosted endpoint
+  .setProject("69609e88000a6d84dde4");
 
 export const account = new Account(client);
 export const databases = new Databases(client);
